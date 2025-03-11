@@ -1,0 +1,14 @@
+<mat-drawer
+  [(opened)]="visible"
+  [class]="{ visible: visible, hidden: !visible }"
+>
+  <div class="header">
+    <button mat-icon-button class="close-button" (click)="toggleDrawer(false)">
+      <mat-icon>close</mat-icon>
+    </button>
+    <h3>Выбрать из списка</h3>
+    <button>Готово</button>
+  </div>
+  <div class="list-wrapper">
+  </div>
+</mat-drawer>
