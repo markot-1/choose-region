@@ -1,1 +1,13 @@
-<p>main-page works!</p>
+<div class="form-wrapper">
+    <form class="form-group" [formGroup]="form">
+        <h2>Добавить отчет</h2>
+        <label>Выберите не менее двух регионов</label>
+        <button class="form-button">Выбрать</button>
+        <label>Выберите один регион из списка</label>
+        <button class="form-button">Выбрать</button>
+    </form>
+    <div class="footer">
+        <span>Нужно заполнить поля, отмеченные *</span>
+        <button class="submit">Добавить отчет</button>
+    </div>
+</div>
