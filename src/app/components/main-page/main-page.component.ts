@@ -10,6 +10,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { SingleListViewComponent } from '../single-list-view/single-list-view.component';
 import { MultiListViewComponent } from '../multi-list-view/multi-list-view.component';
 import { minArrayLength } from '../../validators/array-validators';
+import { cpSync } from 'fs';
 
 @Component({
   selector: 'app-main-page',
@@ -24,7 +25,7 @@ export class MainPageComponent {
   visibleSingleChoice: boolean = false;
   form: FormGroup = this.fb.group({
     regionsArray: [[], [Validators.required, minArrayLength(2)]],
-    region: [{ id: null, name: '' }, Validators.required],
+    region: [null, Validators.required],
   });
 
   constructor(private fb: FormBuilder) {}
@@ -35,5 +36,9 @@ export class MainPageComponent {
 
   toggleSingleChoice(value: boolean) {
     this.visibleSingleChoice = value;
+  }
+
+  onSubmit() {
+    console.log(this.form.value);
   }
 }
