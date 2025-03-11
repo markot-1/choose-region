@@ -2,12 +2,12 @@
   <form class="form-group" [formGroup]="form">
     <h2>Добавить отчет</h2>
     <label>Выберите не менее двух регионов</label>
-    <app-list-view [visible]="visibleList" (onClick)="toggleVisibilityList($event)"></app-list-view>
-    <button class="form-button" (click)="visibleList = true">Выбрать</button>
+    <app-multi-list-view [visible]="visibleMultiChoice" (onClick)="toggleMultiChoice($event)"></app-multi-list-view>
+    <button class="form-button" (click)="visibleMultiChoice = true">Выбрать</button>
 
     <label>Выберите один регион из списка</label>
-    <app-list-view [visible]="visibleList" (onClick)="toggleVisibilityList($event)"></app-list-view>
-    <button class="form-button" (click)="visibleList = true">Выбрать</button>
+    <app-single-list-view [visible]="visibleSingleChoice" (onClick)="toggleSingleChoice($event)"></app-single-list-view>
+    <button class="form-button" (click)="visibleSingleChoice = true">Выбрать</button>
   </form>
   <div class="footer">
     <span>Нужно заполнить поля, отмеченные *</span>

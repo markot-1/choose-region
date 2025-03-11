@@ -1,0 +1,72 @@
+@import "./../../../assets/variables.scss";
+
+.visible {
+    background: $color-black;
+    height: 100%;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    ::ng-deep .mat-drawer-inner-container {
+        @extend %wrapper;
+        justify-content: flex-start;
+
+        .header {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            height: 50px;
+            justify-content: space-between;
+            align-items: center;
+
+            h3 {
+                color: $color-white;
+            }
+
+            button {
+                background: transparent;
+                border: none;
+                cursor: pointer;
+            }
+
+            .close-button {
+                color: $color-white;
+
+                mat-icon {
+                    width: 20px;
+                    height: 20px;
+                    font-size: 20px;
+                }
+            }
+
+            .chose-button {
+                font-weight: 400;
+                font-size: 15px;
+                color: $color-orange;
+            }
+        }
+    
+        section {
+            display: flex;
+            flex-direction: column;
+
+            .mat-mdc-checkbox-checked {
+                .mdc-checkbox__background {
+                    border-color: $color-orange !important;
+                    background-color: $color-orange !important;
+                }
+
+            }
+
+            .mdc-label {
+                color: $color-white;
+            }
+        }
+    }
+}
+
+.hidden {
+    display: none;
+}

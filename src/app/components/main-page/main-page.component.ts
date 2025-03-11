@@ -1,40 +1,39 @@
 import { Component } from '@angular/core';
 import {
   FormBuilder,
+  FormGroup,
   ReactiveFormsModule,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { ListViewComponent } from "../list-view/list-view.component";
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { RegionsService } from '../../regions.service';
+import { SingleListViewComponent } from '../single-list-view/single-list-view.component';
+import { MultiListViewComponent } from '../multi-list-view/multi-list-view.component';
+import { minArrayLength } from '../../validators/array-validators';
 
 @Component({
   selector: 'app-main-page',
   standalone: true,
-  imports: [ReactiveFormsModule, ListViewComponent, ScrollingModule],
+  imports: [ReactiveFormsModule, ScrollingModule, SingleListViewComponent, MultiListViewComponent],
   templateUrl: './main-page.component.html',
   styleUrl: './main-page.component.scss',
 })
+
 export class MainPageComponent {
-  visibleList: boolean = false;
-  form: UntypedFormGroup = new UntypedFormGroup({});
-  regionsData: any;
+  visibleMultiChoice: boolean = false;
+  visibleSingleChoice: boolean = false;
+  form: FormGroup = this.fb.group({
+    regionsArray: [[], [Validators.required, minArrayLength(2)]],
+    region: [{ id: null, name: '' }, Validators.required],
+  });
 
-  constructor(private fb: FormBuilder, private regionsService: RegionsService) {}
+  constructor(private fb: FormBuilder) {}
 
-  ngOnInit(): void {
-    this.form = this.fb.group({
-      regionsArray: [{}, Validators.required],
-      region: [{}, Validators.required],
-    });
-
-    this.regionsService.getRegions().subscribe((data) => {
-      this.regionsData = data.data;
-    })
+  toggleMultiChoice(value: boolean) {
+    this.visibleMultiChoice = value;
   }
 
-  toggleVisibilityList(value: boolean) {
-    this.visibleList = value;
+  toggleSingleChoice(value: boolean) {
+    this.visibleSingleChoice = value;
   }
 }
