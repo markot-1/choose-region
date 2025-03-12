@@ -1,14 +1,14 @@
 <div class="form-wrapper">
   <form class="form-group" [formGroup]="form" (ngSubmit)="onSubmit()">
     <h2>Добавить отчет</h2>
-    <label>Выберите не менее двух регионов</label>
+    <label>*Выберите не менее двух регионов</label>
     <app-multi-list-view
       formControlName="regionsArray"
       [visible]="visibleMultiChoice"
       (onClick)="toggleMultiChoice($event)"
     ></app-multi-list-view>
     @if(form.controls['regionsArray'].value.length === 0) {
-    <button class="form-button" (click)="visibleMultiChoice = true">
+    <button type="button" class="form-button" (click)="visibleMultiChoice = true">
       Выбрать
     </button>
     } @else {
@@ -19,14 +19,14 @@
     </div>
     }
 
-    <label>Выберите один регион из списка</label>
+    <label>*Выберите один регион из списка</label>
     <app-single-list-view
       formControlName="region"
       [visible]="visibleSingleChoice"
       (onClick)="toggleSingleChoice($event)"
     ></app-single-list-view>
     @if(!form.controls['region'].value) {
-      <button class="form-button" (click)="visibleSingleChoice = true">
+      <button type="button" class="form-button" (click)="visibleSingleChoice = true">
         Выбрать
       </button>
     } @else {
@@ -34,11 +34,12 @@
         <span class="result">{{ form.controls['region'].value.name }}</span>
       </div>
     }
+
+    <div class="footer">
+      <span>Нужно заполнить поля, отмеченные *</span>
+      <button type="submit" class="submit" [disabled]="form.invalid">
+        Добавить отчет
+      </button>
+    </div>
   </form>
-  <div class="footer">
-    <span>Нужно заполнить поля, отмеченные *</span>
-    <button type="submit" class="submit" [disabled]="form.invalid">
-      Добавить отчет
-    </button>
-  </div>
 </div>

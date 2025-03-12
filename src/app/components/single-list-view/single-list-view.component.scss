@@ -36,6 +36,7 @@
 
             .close-button {
                 color: $color-white;
+                outline: none;
 
                 mat-icon {
                     width: 20px;
@@ -50,20 +51,31 @@
                 color: $color-orange;
             }
         }
-    
-        .mat-mdc-radio-group {
-            display: flex;
-            flex-direction: column;
 
-            .mat-mdc-radio-checked {
-                .mdc-radio__inner-circle,
-                .mdc-radio__outer-circle {
-                    border-color: $color-orange !important;
+        .list-wrapper {
+            width: 100%;
+
+            .mat-mdc-radio-group {
+                display: flex;
+                flex-direction: column;
+
+                .mat-mdc-radio-button {
+                    height: 54px;
+                    border-bottom: 0.50px solid #4b4b4b;
+                    line-height: 54px;
                 }
-            }
 
-            .mdc-label {
-                color: $color-white;
+                .mat-mdc-radio-checked {
+
+                    .mdc-radio__inner-circle,
+                    .mdc-radio__outer-circle {
+                        border-color: $color-orange !important;
+                    }
+                }
+
+                .mdc-label {
+                    color: $color-white;
+                }
             }
         }
     }

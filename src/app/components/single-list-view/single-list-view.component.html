@@ -3,18 +3,19 @@
   [class]="{ visible: visible, hidden: !visible }"
 >
   <div class="header">
-    <button mat-icon-button class="close-button" (click)="toggleDrawer(false)">
+    <button type="button" mat-icon-button class="close-button" (click)="toggleDrawer(false)">
       <mat-icon>arrow_back_ios</mat-icon>
     </button>
     <h3>Выбрать из списка</h3>
-    <button (click)="updateFormData()" class="chose-button">Готово</button>
+    <button type="button" (click)="updateFormData()" class="chose-button">Готово</button>
   </div>
+  <app-search-input (searchChange)="searchQuery$.next($event)"></app-search-input>
   <div class="list-wrapper">
     <mat-radio-group
       [(ngModel)]="selectedRegion"
       (change)="toggleSelection($event.value)"
     >
-      @for(region of (regions$ | async); track region.id) {
+      @for(region of (filteredRegions$ | async); track region.id) {
       <mat-radio-button [value]="region">{{ region.name }}</mat-radio-button>
       }
     </mat-radio-group>
