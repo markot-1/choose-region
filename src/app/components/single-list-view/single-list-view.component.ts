@@ -2,14 +2,33 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIcon } from '@angular/material/icon';
 import { RegionsService } from '../../regions.service';
-import { map, Observable } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  debounceTime,
+  map,
+  Observable,
+  shareReplay,
+} from 'rxjs';
 import { MatRadioModule } from '@angular/material/radio';
 import { AsyncPipe } from '@angular/common';
-import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  FormsModule,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
+import { SearchInputComponent } from '../search-input/search-input.component';
 
 @Component({
   selector: 'app-single-list-view',
-  imports: [MatSidenavModule, MatIcon, AsyncPipe, MatRadioModule, FormsModule],
+  imports: [
+    MatSidenavModule,
+    MatIcon,
+    AsyncPipe,
+    MatRadioModule,
+    FormsModule,
+    SearchInputComponent,
+  ],
   templateUrl: './single-list-view.component.html',
   styleUrl: './single-list-view.component.scss',
   providers: [
@@ -25,14 +44,29 @@ export class SingleListViewComponent implements ControlValueAccessor {
   @Output() onClick: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   regions$: Observable<any[]>;
-  selectedRegion: {id: string, name: string} | null = null;
+  selectedRegion: { id: string; name: string } | null = null;
+  searchQuery$ = new BehaviorSubject<string>('');
+  filteredRegions$: Observable<any[]>;
+
   onChange: (value: { id: string; name: string } | null) => void = () => {};
   onTouched: () => void = () => {};
 
   constructor(private regionsService: RegionsService) {
-    this.regions$ = this.regionsService
-      .getRegions()
-      .pipe(map((data) => data.data));
+    this.regions$ = this.regionsService.getRegions().pipe(
+      map((data) => data.data),
+      shareReplay(1)
+    );
+
+    this.filteredRegions$ = combineLatest([
+      this.regions$,
+      this.searchQuery$.pipe(debounceTime(300)),
+    ]).pipe(
+      map(([regions, searchQuery]) =>
+        regions.filter((region) =>
+          region.name.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      )
+    );
   }
 
   writeValue(value: any): void {
@@ -51,7 +85,7 @@ export class SingleListViewComponent implements ControlValueAccessor {
     return this.selectedRegion?.id === regionId;
   }
 
-  toggleSelection(region: {id: string, name: string}) {
+  toggleSelection(region: { id: string; name: string }) {
     this.selectedRegion = region;
   }
 
@@ -61,8 +95,6 @@ export class SingleListViewComponent implements ControlValueAccessor {
   }
 
   toggleDrawer(value: boolean) {
-    this.selectedRegion = null;
-    this.onChange(this.selectedRegion);
     this.onClick.emit(value);
   }
 }
